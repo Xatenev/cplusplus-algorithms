@@ -1,7 +1,7 @@
-# C Algorithms and Data Structures
+# C++ Algorithms and Data Structures
 
 
-This repository contains C based examples of many
+This repository contains C++ based examples of many
 popular algorithms and data structures.
 
 Each algorithm and data structure has its own separate README
