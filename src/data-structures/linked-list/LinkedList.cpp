@@ -7,7 +7,10 @@ class LinkedList {
     public: 
     void append(int val);
     void prepend(int val);
+
     LinkedListNode* find(int val);
+    bool contains(int val);
+
 };
 
 void LinkedList::append(int val) {
@@ -44,4 +47,17 @@ LinkedListNode* LinkedList::find(int val) {
     }
 
     return nullptr;
+}
+
+bool LinkedList::contains(int val) {
+    LinkedListNode* current = this->head;
+    while(current) {
+        if(current->getValue() == val) {
+            return true;
+        }
+
+        current = current->getNext();
+    }
+
+    return false;
 }

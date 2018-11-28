@@ -10,7 +10,11 @@ int main() {
         list->append(i);
     }
 
-    std::cout << list->find(7)->getValue();
+    std::cout << list->find(7)->getValue() << std::endl;
+
+    std::cout << list->contains(10) << std::endl;
+    std::cout << list->contains(52) << std::endl;
+    
 
 
 }
