@@ -14,11 +14,10 @@ struct XLinkedList {
     XLinkedListNode* tail;
 
     void (*add)(XLinkedList* self, int value);
-    void (*prepend)(XLinkedList* self, XLinkedListNode node);
+    void (*prepend)(XLinkedList* self, int value);
     bool (*contains)(XLinkedList* self, int value);
     void (*remove)(XLinkedList* self, XLinkedListNode node);
-    void (*traverse)(XLinkedList* self, XLinkedListNode node);
-    void (*traverseReverse)(XLinkedList* self, XLinkedListNode node);
+    void (*reverse)(XLinkedList* self, XLinkedListNode node);
     void (*destroy)(XLinkedList* self);
 
 };

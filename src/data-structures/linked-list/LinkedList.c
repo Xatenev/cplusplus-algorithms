@@ -17,7 +17,16 @@ static void _add(XLinkedList* self, int value) {
     }
 }
 
-static void _prepend(XLinkedList* self, XLinkedListNode value) {
+static void _prepend(XLinkedList* self, int value) {
+    XLinkedListNode* node = malloc(sizeof *node);
+    node->value = value;
+    node->next = NULL;
+
+    self->head = node;
+
+    if(self->tail == NULL){
+        self->tail = node;
+    }
 }
 
 static bool _contains(XLinkedList* self, int value) {
@@ -29,19 +38,49 @@ static bool _contains(XLinkedList* self, int value) {
     return n != NULL;
 }
 
-static void _remove(XLinkedList* self, XLinkedListNode node) {
+static void _remove(XLinkedList* self, int value) {
+    XLinkedListNode* head = self->head;
+    XLinkedListNode* tail = self->tail;
+
+    if(*head == NULL || *tail == NULL) { // List is still empty
+        return false;
+    }
+
+    // Value found
+    if(head->value == value) {
+        if(head == tail) { // Only one entry, clear head and tail
+            *head = NULL;
+            *tail = NULL;
+        } else { // Entry is at head
+            *head = head->next;
+        }
+
+        return true;
+    }
+
+    while(head->next != NULL && head->next->value != value) {
+        head = head->next;
+    }
+
+    if(head->next != NULL) {
+        if(head->next == *tail) {
+            *tail = head;
+        }
+
+        head->next = head->next->next;
+
+        return true;
+    }
+    
+    return false;
+
+}
+
+static void _reverse(XLinkedList* self, XLinkedListNode node) {
     printf("%d\n", 1);
 }
 
-static void _traverse(XLinkedList* self, XLinkedListNode node) {
-    printf("%d\n", 1);
-}
-
-static void _traverseReverse(XLinkedList* self, XLinkedListNode node) {
-    printf("%d\n", 1);
-}
-
-static void _destroy() {
+static void _destroy(XLinkedList* self) {
     
 }
 
@@ -50,6 +89,8 @@ void xInitLinkedList(XLinkedList* linkedList) {
     // Setup function pointers
     linkedList->add = &_add;
     linkedList->contains = &_contains;
+    linkedList->prepend = &_prepend;
+    linkedList->remove = &_remove;
 
     // Setup sentinel values
     linkedList->head = NULL;
