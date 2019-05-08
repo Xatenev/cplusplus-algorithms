@@ -1,9 +1,18 @@
+#include <stdio.h>
+
 #include "LinkedList.h"
 
 int main() {
-    XLinkedList linkedList = xNewLinkedList();
+    XLinkedList linkedList;
+    
+    xInitLinkedList(&linkedList);
 
-    XLinkedListNode linkedListNode;
+    linkedList.add(&linkedList, 8);
 
-    linkedList.add(linkedList linkedListNode);
+    bool result1 = linkedList.contains(&linkedList, 8);
+    bool result2 = linkedList.contains(&linkedList, 3);
+    
+    assert(result1 == 1);
+    assert(result2 == 2);
 }
+
