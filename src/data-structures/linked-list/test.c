@@ -11,8 +11,8 @@ int main() {
 
     bool result1 = linkedList.contains(&linkedList, 8);
     bool result2 = linkedList.contains(&linkedList, 3);
-    
-    assert(result1 == 1);
-    assert(result2 == 2);
+
+    assert(result1 == true);
+    assert(result2 == false);
 }
 

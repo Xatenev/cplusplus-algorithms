@@ -7,7 +7,7 @@ static void _add(XLinkedList* self, int value) {
     XLinkedListNode node;
     node.value = value;
     node.next = NULL;
-    
+
     if(self->head == NULL) {
         self->head = &node;
         self->tail = &node;
@@ -22,8 +22,14 @@ static void _prepend(XLinkedList* self, XLinkedListNode value) {
 
 static bool _contains(XLinkedList* self, int value) {
     XLinkedListNode* n = self->head;
+    int i = 1;
     while(n != NULL && n->value != value) {
+        printf("%p\n",n->next);
         n = n->next;
+        i++;
+        if(i==5){
+            exit(1);
+        }
     }
 
     return n != NULL;
