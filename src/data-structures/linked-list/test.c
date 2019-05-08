@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "LinkedList.h"
@@ -14,5 +15,7 @@ int main() {
 
     assert(result1 == true);
     assert(result2 == false);
+    
+    return EXIT_SUCCESS;
 }
 

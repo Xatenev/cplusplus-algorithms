@@ -4,16 +4,16 @@
 #include "LinkedList.h"
 
 static void _add(XLinkedList* self, int value) {
-    XLinkedListNode node;
-    node.value = value;
-    node.next = NULL;
+    XLinkedListNode* node = malloc(sizeof *node);
+    node->value = value;
+    node->next = NULL;
 
     if(self->head == NULL) {
-        self->head = &node;
-        self->tail = &node;
+        self->head = node;
+        self->tail = node;
     } else {
-        self->tail->next = &node;
-        self->tail = &node;
+        self->tail->next = node;
+        self->tail = node;
     }
 }
 
