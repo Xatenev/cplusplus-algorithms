@@ -16,6 +16,8 @@ typedef struct XLinkedList {
     void (*remove)(struct XLinkedList* self, XLinkedListNode node);
     void (*traverse)(struct XLinkedList* self, XLinkedListNode node);
     void (*traverseReverse)(struct XLinkedList* self, XLinkedListNode node);
+    void (*destroy)(struct XLinkedList* self);
+
 } XLinkedList;
 
 void xInitLinkedList(XLinkedList* linkedList);

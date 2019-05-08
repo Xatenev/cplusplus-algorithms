@@ -15,7 +15,9 @@ int main() {
 
     assert(result1 == true);
     assert(result2 == false);
-    
+
+    linkedList.destroy(&linkedList);
+
     return EXIT_SUCCESS;
 }
 

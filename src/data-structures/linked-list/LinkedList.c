@@ -41,6 +41,9 @@ static void _traverseReverse(XLinkedList* self, XLinkedListNode node) {
     printf("%d\n", 1);
 }
 
+static void _destroy() {
+    
+}
 
 
 void xInitLinkedList(XLinkedList* linkedList) {
