@@ -22,3 +22,8 @@ the data.
 `B` - Beginner, `A` - Advanced
 
 * `B` [Linked List](src/data-structures/linked-list)
+
+## Algorithms
+An algorithm is an unambiguous specification of how to solve a class of problems. It is a set of rules that precisely define a sequence of operations.
+
+`B` - Beginner, `A` - Advanced
