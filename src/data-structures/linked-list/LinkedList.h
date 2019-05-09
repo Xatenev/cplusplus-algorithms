@@ -16,8 +16,8 @@ struct XLinkedList {
     void (*add)(XLinkedList* self, int value);
     void (*prepend)(XLinkedList* self, int value);
     bool (*contains)(XLinkedList* self, int value);
-    void (*remove)(XLinkedList* self, XLinkedListNode node);
-    void (*reverse)(XLinkedList* self, XLinkedListNode node);
+    bool (*remove)(XLinkedList* self, int value);
+    void (*reverse)(XLinkedList* self);
     void (*destroy)(XLinkedList* self);
 
 };

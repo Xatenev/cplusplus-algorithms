@@ -5,7 +5,6 @@
 
 int main() {
     XLinkedList linkedList;
-    
     xInitLinkedList(&linkedList);
 
     /* Test add and contains */
@@ -23,7 +22,9 @@ int main() {
     /* Test remove */
     linkedList.remove(&linkedList, 3);
 
-//    linkedList.destroy(&linkedList);
+    assert(linkedList.head->value != 3);
+
+    linkedList.destroy(&linkedList);
 
     return EXIT_SUCCESS;
 }
