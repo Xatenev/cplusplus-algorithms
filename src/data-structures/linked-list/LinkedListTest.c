@@ -36,6 +36,7 @@ int main() {
 
     assert(linkedList->head->value == 3);
 
+    /* Test destroy */
     linkedList->destroy(&linkedList);
 
     assert(linkedList == NULL);
