@@ -78,16 +78,51 @@ static bool _remove(XLinkedList *self, int value) {
 }
 
 static void _reverse(XLinkedList *self) {
-    printf("%d\n", 1);
+    XLinkedListNode *iteratorNode = self->head;
+    XLinkedListNode *previousNode = NULL;
+    XLinkedListNode *nextNode = NULL;
+
+    while (iteratorNode != NULL) {
+        nextNode = iteratorNode->next;
+
+
+        if(previousNode) { // Not head(first)
+            iteratorNode->next = previousNode;
+        }
+
+        if(iteratorNode->next == NULL) {
+            break;
+        }
+
+        if(self->head == iteratorNode) {
+            iteratorNode->next = NULL;
+        }
+
+        previousNode = iteratorNode;
+        iteratorNode = nextNode;
+
+    }
+
+    XLinkedListNode* tmp = self->head;
+    self->head = self->tail;
+    self->tail = tmp;
+}
+
+static void _clear(XLinkedList* self) {
+    if (self->head == NULL || self->tail == NULL) { // List is still empty
+        return;
+    }
 
     XLinkedListNode *tmp;
-    XLinkedListNode *head, *tmp2;
-    head = tmp2 = self->head;
+    XLinkedListNode *head = self->head;
 
     while (head != NULL) {
         tmp = head;
         head = head->next;
+        free(tmp);
     }
+
+    self->head = self->tail = NULL;
 }
 
 static void _destroy(XLinkedList *self) {
@@ -101,10 +136,14 @@ static void _destroy(XLinkedList *self) {
     }
 
     self->head = self->tail = NULL;
+
+    free(self);
 }
 
 
-void xInitLinkedList(XLinkedList *linkedList) {
+XLinkedList* xInitLinkedList() {
+    XLinkedList* linkedList = malloc(sizeof *linkedList);
+
     // Setup function pointers
     linkedList->add = &_add;
     linkedList->contains = &_contains;
@@ -112,8 +151,11 @@ void xInitLinkedList(XLinkedList *linkedList) {
     linkedList->remove = &_remove;
     linkedList->destroy = &_destroy;
     linkedList->reverse = &_reverse;
+    linkedList->clear = &_clear;
 
     // Setup sentinel values
     linkedList->head = NULL;
     linkedList->tail = NULL;
+
+    return linkedList;
 }

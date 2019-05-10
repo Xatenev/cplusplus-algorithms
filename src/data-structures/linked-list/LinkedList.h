@@ -19,7 +19,8 @@ struct XLinkedList {
     bool (*remove)(XLinkedList* self, int value);
     void (*reverse)(XLinkedList* self);
     void (*destroy)(XLinkedList* self);
+    void (*clear)(XLinkedList* self);
 
 };
 
-void xInitLinkedList(XLinkedList* linkedList);
+XLinkedList* xInitLinkedList();
