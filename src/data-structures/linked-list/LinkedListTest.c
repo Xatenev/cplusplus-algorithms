@@ -36,7 +36,10 @@ int main() {
 
     assert(linkedList->head->value == 3);
 
-    linkedList->destroy(linkedList);
+    linkedList->destroy(&linkedList);
+
+    assert(linkedList == NULL);
+
 
     return EXIT_SUCCESS;
 }

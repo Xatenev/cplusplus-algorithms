@@ -125,9 +125,9 @@ static void _clear(XLinkedList* self) {
     self->head = self->tail = NULL;
 }
 
-static void _destroy(XLinkedList *self) {
+static void _destroy(XLinkedList **self) {
     XLinkedListNode *tmp;
-    XLinkedListNode *head = self->head;
+    XLinkedListNode *head = (*self)->head;
 
     while (head != NULL) {
         tmp = head;
@@ -135,9 +135,11 @@ static void _destroy(XLinkedList *self) {
         free(tmp);
     }
 
-    self->head = self->tail = NULL;
+    (*self)->head = (*self)->tail = NULL;
 
-    free(self);
+    free(*self);
+
+    *self = NULL;
 }
 
 
