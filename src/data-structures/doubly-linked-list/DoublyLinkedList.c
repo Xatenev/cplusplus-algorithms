@@ -1,26 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "LinkedList.h"
+#include "DoublyLinkedList.h"
 
-static void _add(XLinkedList *self, int value) {
-    XLinkedListNode *node = malloc(sizeof *node);
+static void _add(XDLinkedList *self, int value) {
+    XDLinkedListNode *node = malloc(sizeof *node);
     node->value = value;
     node->next = NULL;
+    node->prev = NULL;
 
     if (self->head == NULL) {
         self->head = node;
         self->tail = node;
     } else {
+        node->prev = self->tail;
         self->tail->next = node;
         self->tail = node;
     }
 }
 
-static void _prepend(XLinkedList *self, int value) {
-    XLinkedListNode *node = malloc(sizeof *node);
+static void _prepend(XDLinkedList *self, int value) {
+    XDLinkedListNode *node = malloc(sizeof *node);
     node->value = value;
     node->next = self->head;
+    node->prev = NULL;
 
     self->head = node;
 
@@ -29,8 +32,8 @@ static void _prepend(XLinkedList *self, int value) {
     }
 }
 
-static bool _contains(XLinkedList *self, int value) {
-    XLinkedListNode *n = self->head;
+static bool _contains(XDLinkedList *self, int value) {
+    XDLinkedListNode *n = self->head;
     while (n != NULL && n->value != value) {
         n = n->next;
     }
@@ -38,10 +41,9 @@ static bool _contains(XLinkedList *self, int value) {
     return n != NULL;
 }
 
-static bool _remove(XLinkedList *self, int value) {
-    XLinkedListNode **head = &self->head;
-    XLinkedListNode **tail = &self->tail;
-
+static bool _remove(XDLinkedList *self, int value) {
+    XDLinkedListNode **head = &self->head;
+    XDLinkedListNode **tail = &self->tail;
 
     if (*head == NULL || *tail == NULL) { // List is still empty
         return false;
@@ -54,8 +56,10 @@ static bool _remove(XLinkedList *self, int value) {
             *head = NULL;
             *tail = NULL;
         } else { // Entry is at head, multiple entries though
-            XLinkedListNode *tmp = (*head)->next;
+            XDLinkedListNode *tmp = (*head)->next;
             free(*head);
+
+            tmp->prev = NULL; // We just removed the previous node
             *head = tmp;
         }
 
@@ -63,7 +67,7 @@ static bool _remove(XLinkedList *self, int value) {
     }
 
     // (n) lookup time
-    XLinkedListNode *tmp = (*head);
+    XDLinkedListNode *tmp = (*head);
     while (tmp->next != NULL && tmp->next->value != value) {
         tmp = tmp->next;
     }
@@ -73,9 +77,11 @@ static bool _remove(XLinkedList *self, int value) {
             *tail = tmp;
         }
 
-        XLinkedListNode *tmp2 = tmp->next->next;
-        free (tmp->next);
-        tmp->next = tmp2;
+        XDLinkedListNode *tmp2 = tmp->next;
+        tmp->next = tmp->next->next;
+        free(tmp2);
+
+        tmp->next->prev = tmp;
 
         return true;
     }
@@ -83,44 +89,29 @@ static bool _remove(XLinkedList *self, int value) {
     return false;
 }
 
-static void _reverse(XLinkedList *self) {
-    XLinkedListNode *iteratorNode = self->head;
-    XLinkedListNode *previousNode = NULL;
-    XLinkedListNode *nextNode = NULL;
+static void _reverse(XDLinkedList *self) {
+    XDLinkedListNode *iteratorNode = self->head;
 
     while (iteratorNode != NULL) {
-        nextNode = iteratorNode->next;
+        XDLinkedListNode *tmp = iteratorNode->prev;
+        iteratorNode->prev = iteratorNode->next;
+        iteratorNode->next = tmp;
 
-
-        if (previousNode) { // Not head(first)
-            iteratorNode->next = previousNode;
-        }
-
-        if (iteratorNode->next == NULL) {
-            break;
-        }
-
-        if (self->head == iteratorNode) {
-            iteratorNode->next = NULL;
-        }
-
-        previousNode = iteratorNode;
-        iteratorNode = nextNode;
-
+        iteratorNode = iteratorNode->prev;
     }
 
-    XLinkedListNode *tmp = self->head;
+    XDLinkedListNode *tmp = self->head;
     self->head = self->tail;
     self->tail = tmp;
 }
 
-static void _clear(XLinkedList *self) {
+static void _clear(XDLinkedList *self) {
     if (self->head == NULL || self->tail == NULL) { // List is still empty
         return;
     }
 
-    XLinkedListNode *tmp;
-    XLinkedListNode *head = self->head;
+    XDLinkedListNode *tmp;
+    XDLinkedListNode *head = self->head;
 
     while (head != NULL) {
         tmp = head;
@@ -131,9 +122,9 @@ static void _clear(XLinkedList *self) {
     self->head = self->tail = NULL;
 }
 
-static void _destroy(XLinkedList **self) {
-    XLinkedListNode *tmp;
-    XLinkedListNode *head = (*self)->head;
+static void _destroy(XDLinkedList **self) {
+    XDLinkedListNode *tmp;
+    XDLinkedListNode *head = (*self)->head;
 
     while (head != NULL) {
         tmp = head;
@@ -149,8 +140,8 @@ static void _destroy(XLinkedList **self) {
 }
 
 
-XLinkedList *xInitLinkedList() {
-    XLinkedList *linkedList = malloc(sizeof *linkedList);
+XDLinkedList *xInitDoublyLinkedList() {
+    XDLinkedList *linkedList = malloc(sizeof *linkedList);
 
     // Setup function pointers
     linkedList->add = &_add;

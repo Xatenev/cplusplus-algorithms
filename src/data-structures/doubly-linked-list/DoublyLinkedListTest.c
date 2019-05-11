@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "LinkedList.h"
+#include "DoublyLinkedList.h"
 
 int main() {
-    XLinkedList *linkedList = xInitLinkedList();
+    XDLinkedList *linkedList = xInitDoublyLinkedList();
 
     /* Test add and contains */
     linkedList->add(linkedList, 8);
@@ -19,9 +19,14 @@ int main() {
     assert(linkedList->head->value == 3);
 
     /* Test remove */
-    linkedList->remove(linkedList, 8);
+    linkedList->clear(linkedList);
+    linkedList->add(linkedList, 1);
+    linkedList->add(linkedList, 2);
+    linkedList->add(linkedList, 3);
+    linkedList->add(linkedList, 4);
+    linkedList->remove(linkedList, 1);
 
-    assert(linkedList->head->value != 3);
+    assert(linkedList->head->value != 1);
 
 
     /* Test reverse */
@@ -33,7 +38,6 @@ int main() {
     assert(linkedList->head->value == 1);
 
     linkedList->reverse(linkedList);
-
     assert(linkedList->head->value == 3);
 
     /* Test destroy */
